@@ -2,8 +2,6 @@ package Data::Perl::Collection::Hash;
 
 sub new { my $cl = shift; bless({ @_ }, $cl) }
 
-
-
 sub get { my $self = shift; @_ > 1 ? @{self}{@_} : $self->{$_[0]} }
 
 sub set {
