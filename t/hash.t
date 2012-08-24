@@ -5,6 +5,7 @@ use Data::Perl::Collection::Hash;
   package Ex1;
 
   use Moo;
+  use MooX::HandlesVia;
 
   has foos => (
     is => 'ro',
@@ -21,11 +22,21 @@ use Data::Perl::Collection::Hash;
       'set_bar' => '${\Data::Perl::Collection::Hash->can("set")}',
     },
   );
+
+  has bazes => (
+    is => 'rw',
+    handles_via => 'Data::Perl::Collection::Hash',
+    handles => {
+      get_baz => 'get',
+      bazkeys => 'keys'
+    }
+  );
 }
 
 my $ex = Ex1->new(
   foos => Data::Perl::Collection::Hash->new(one => 1),
   bars => { one => 1 },
+  bazes => { ate => 'nine', two => 'five' },
 );
 
 use Test::More;
@@ -37,5 +48,8 @@ $ex->set_foo('two', 2, 'set_foo worked');
 $ex->set_bar('two', 2, 'set_bar worked');
 
 is ($ex->foos->{'two'}, 2, 'foos accessor worked');
+
+is ($ex->get_baz('ate'), 'nine', 'get_baz worked');
+is_deeply([sort $ex->bazkeys], [qw/ate two/] , 'bazkeys worked');
 
 done_testing;
