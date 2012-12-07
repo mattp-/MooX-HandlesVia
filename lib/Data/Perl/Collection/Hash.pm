@@ -16,11 +16,11 @@ sub set {
 
 sub delete { delete @{$_[0]}{@_} }
 
+sub keys { keys %{$_[0]} }
+
 sub exists { exists $_[0]->{$_[1]} }
 
 sub defined { defined $_[0]->{$_[1]} }
-
-sub keys { keys %{$_[0]} }
 
 sub values { values %{$_[0]} }
 
@@ -30,9 +30,9 @@ sub elements { map { $_, $_[0]->{$_} } keys %{$_[0]} }
 
 sub clear { $_[0] = {} }
 
-sub is_empty { scalar keys %{$_[0]} ? 0 : 1 }
-
 sub count { scalar keys %{$_[0]} }
+
+sub is_empty { scalar keys %{$_[0]} ? 0 : 1 }
 
 sub accessor {
   if (@_ == 1) {
@@ -42,5 +42,7 @@ sub accessor {
     $_[0]->{$_[1]} = $_[2];
   }
 }
+
+sub shallow_clone { { %{$_[0]} } }
 
 1;
