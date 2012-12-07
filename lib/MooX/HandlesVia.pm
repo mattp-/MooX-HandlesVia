@@ -3,7 +3,7 @@ package MooX::HandlesVia;
 use strictures 1;
 use Module::Runtime qw/require_module/;
 use Package::Stash;
-use Perl6::Junction qw/any/;
+use Syntax::Keyword::Junction qw/any/;
 
 sub import {
   my ($class) = @_;
