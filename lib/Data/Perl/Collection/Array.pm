@@ -27,12 +27,12 @@ sub first_index { &List::MoreUtils::first_index($_[1], @{$_[0]}) }
 
 sub grep {
   my ($self, $cb) = @_;
-  grep { $_->$cb } $self;
+  grep { $_->$cb } @$self;
 }
 
 sub map {
   my ($self, $cb) = @_;
-  map { $_->$cb } $self;
+  map { $_->$cb } @$self;
 }
 
 sub set {
