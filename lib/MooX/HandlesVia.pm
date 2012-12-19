@@ -12,7 +12,7 @@ sub import {
   my $target = caller;
   if(my $has = $target->can('has')) {
     *{$target.'::has'} = sub {
-      _process_has(@_);
+      process_has(@_);
       $has->(@_);
     }
   }
