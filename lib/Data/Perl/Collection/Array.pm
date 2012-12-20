@@ -2,6 +2,7 @@ package Data::Perl::Collection::Array;
 
 use List::Util;
 use List::MoreUtils;
+use Scalar::Util qw/blessed/;
 
 require Exporter;
 
@@ -85,6 +86,6 @@ sub natatime {
   }
 }
 
-sub shallow_clone { [ @{$_[0]} ] }
+sub shallow_clone { blessed($_[0]) ? bless([@{$_[0]}], ref $_[0]) : [@{$_[0]}] }
 
 1;

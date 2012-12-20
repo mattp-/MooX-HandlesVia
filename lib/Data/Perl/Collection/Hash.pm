@@ -1,5 +1,7 @@
 package Data::Perl::Collection::Hash;
 
+use Scalar::Util qw/blessed/;
+
 sub new { my $cl = shift; bless({ @_ }, $cl) }
 
 sub get { my $self = shift; @_ > 1 ? @{self}{@_} : $self->{$_[0]} }
@@ -43,6 +45,6 @@ sub accessor {
   }
 }
 
-sub shallow_clone { { %{$_[0]} } }
+sub shallow_clone { blessed($_[0]) ? bless({%{$_[0]}}, ref $_[0]) : {%{$_[0]}} }
 
 1;
