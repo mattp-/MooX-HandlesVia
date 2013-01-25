@@ -24,7 +24,7 @@ use warnings;
 
   has bazes => (
     is => 'rw',
-    handles_via => 'Data::Perl::Collection::Hash',
+    handles_via => 'Hash',
     handles => {
       get_baz => 'get',
       bazkeys => 'keys'
@@ -39,12 +39,13 @@ my $ex = Ex1->new(
 );
 
 use Test::More;
+use Test::Exception;
 
 is ($ex->get_foo('one'), 1, 'get_foo worked');
 is ($ex->get_bar('one'), 1, 'get_bar worked');
 
-$ex->set_foo('two', 2, 'set_foo worked');
-$ex->set_bar('two', 2, 'set_bar worked');
+is ($ex->set_foo('two', 2), 2, 'set_foo worked');
+is ($ex->set_bar('two', 2), 2, 'set_bar worked');
 
 is ($ex->foos->{'two'}, 2, 'foos accessor worked');
 
