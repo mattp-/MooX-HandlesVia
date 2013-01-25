@@ -86,13 +86,18 @@ atttribute. This is most commonly used as a way to emulate 'Native Trait'
 behavior that has become commonplace in Moose code, for which there was no Moo
 alternative.
 
-=head1 PROVIDED INTERFACE
+=head1 PROVIDED INTERFACE/FUNCTIONS
 
-MooX::HandlesVia preprocesses arguments passed to has() attribute declarations.
-In a given Moo class, If 'handles_via' is set to a ClassName string, and 'handles' is
-set with a hashref mapping of desired moo class methods that should map to
-ClassName methods, MooX::HandlesVia will do the appropriate magic to create the
-mapping IF ClassName provides that named method.
+=over 4
+
+=item B<process_has(@_)>
+
+MooX::HandlesVia preprocesses arguments passed to has() attribute declarations
+via the process_has function. In a given Moo class, If 'handles_via' is set to
+a ClassName string, and 'handles' is set with a hashref mapping of desired moo
+class methods that should map to ClassName methods, process_has() will create
+the appropriate binding to create the mapping IF ClassName provides that named
+method.
 
   has options => (
     is => 'rw',
@@ -103,6 +108,8 @@ mapping IF ClassName provides that named method.
       all_options => 'elements'
     }
   );
+
+=back
 
 The following handles_via keywords are reserved as shorthand for mapping to L<Data::Perl>:
 
@@ -128,7 +135,9 @@ The following handles_via keywords are reserved as shorthand for mapping to L<Da
 
 =over 4
 
-=item * L<MooX::HandlesVia>
+=item * L<Moo>
+
+=item * L<MooX::late>
 
 =back
 
