@@ -12,8 +12,7 @@ sub import {
   my $target = caller;
   if(my $has = $target->can('has')) {
     *{$target.'::has'} = sub {
-      process_has(@_);
-      $has->(@_);
+      $has->(process_has_args(@_));
     }
   }
 }
@@ -27,13 +26,14 @@ sub process_has {
     # try to load
     require_module($via);
 
-    # we need to switch up handles refs that match @symbols
     while (my ($target, $method) = each %$handles) {
       if ($via->can($method)) {
         $handles->{$target} = '${\\'.$via.'->can("'.$method.'")}';
       }
     }
   }
+
+  %opts;
 }
 
 1;
