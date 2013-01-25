@@ -1,6 +1,5 @@
 use strict;
 use warnings;
-use Data::Perl::Collection::Hash;
 {
   package Ex1;
 

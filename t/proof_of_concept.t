@@ -1,5 +1,5 @@
 {
-  package Data::Perl::Collection::Hash;
+  package Data::Hash;
 
   sub new { my $cl = shift; bless({ @_ }, $cl) }
 
@@ -24,14 +24,14 @@
   has bars => (
     is => 'ro',
     handles => {
-      'get_bar' => '${\Data::Perl::Collection::Hash->can("get")}',
-      'set_bar' => '${\Data::Perl::Collection::Hash->can("set")}',
+      'get_bar' => '${\Data::Hash->can("get")}',
+      'set_bar' => '${\Data::Hash->can("set")}',
     },
   );
 }
 
 my $ex = Ex1->new(
-  foos => Data::Perl::Collection::Hash->new(one => 1),
+  foos => Data::Hash->new(one => 1),
   bars => { one => 1 },
 );
 
