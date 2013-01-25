@@ -1,7 +1,18 @@
 package MooX::HandlesVia;
+# ABSTRACT: NativeTrait-like behavior for Moo.
 
 use strictures 1;
 use Module::Runtime qw/require_module/;
+
+# reserved hardcoded mappings for classname shortcuts.
+my %RESERVED = (
+  'Hash' => 'Data::Perl::Collection::Hash',
+  'Array' => 'Data::Perl::Collection::Array',
+  'String' => 'Data::Perl::String',
+  'Number' => 'Data::Perl::Number',
+  'Bool' => 'Data::Perl::Bool',
+  'Code' => 'Data::Perl::Code',
+);
 
 sub import {
   my ($class) = @_;
@@ -12,19 +23,19 @@ sub import {
   my $target = caller;
   if(my $has = $target->can('has')) {
     *{$target.'::has'} = sub {
-      $has->(process_has_args(@_));
+      $has->(process_has(@_));
     }
   }
 }
 
 sub process_has {
-  my $name = shift;
-  my %opts = @_;
+  my ($name, %opts) = @_;
   my $handles = $opts{handles} || return;
+  return if ref $handles ne 'HASH';
 
   if (my $via = $opts{handles_via}) {
-    # try to load
-    require_module($via);
+    # try to load the reserved mapping, if it exists, else the full name
+    require_module($RESERVED{$via} || $via);
 
     while (my ($target, $method) = each %$handles) {
       if ($via->can($method)) {
@@ -33,7 +44,92 @@ sub process_has {
     }
   }
 
-  %opts;
+  ($name, %opts);
 }
 
 1;
+
+__END__
+==pod
+
+=head1 SYNOPSIS
+
+  {
+    package Hashy;
+    use Moo;
+    use MooX::HandleVia;
+
+    has hash => (
+      is => 'rw',
+      handles_via => 'Hash',
+      handles => {
+        get_val => 'get',
+        set_val => 'set',
+        all_keys => 'keys'
+      }
+    );
+  }
+
+  my $h = Hashy->new(hash => { a => 1, b => 2});
+
+  $h->get('b'); # 2
+
+  $h->set('a', 'BAR'); # sets a to BAR
+
+  my @keys = $h->all_keys; # returns a, b
+
+=head1 DESCRIPTION
+
+MooX::HandlesVia is an extension of Moo's 'handles' attribute functionality. It
+provides a means of proxying functionality from an external class to the given
+atttribute. This is most commonly used as a way to emulate 'Native Trait'
+behavior that has become commonplace in Moose code, for which there was no Moo
+alternative.
+
+=head1 PROVIDED INTERFACE
+
+MooX::HandlesVia preprocesses arguments passed to has() attribute declarations.
+In a given Moo class, If 'handles_via' is set to a ClassName string, and 'handles' is
+set with a hashref mapping of desired moo class methods that should map to
+ClassName methods, MooX::HandlesVia will do the appropriate magic to create the
+mapping IF ClassName provides that named method.
+
+  has options => (
+    is => 'rw',
+    handles_via => 'Array',
+    handles => {
+      mixup => 'shuffle',
+      unique_options => 'uniq',
+      all_options => 'elements'
+    }
+  );
+
+The following handles_via keywords are reserved as shorthand for mapping to L<Data::Perl>:
+
+=over 4
+
+=item * B<Hash> maps to L<Data::Perl::Collection::Hash>
+
+=item * B<Array> maps to L<Data::Perl::Collection::Array>
+
+=item * B<String> maps to L<Data::Perl::String>
+
+=item * B<Number> maps to L<Data::Perl::Number>
+
+=item * B<Counter> maps to L<Data::Perl::Counter>
+
+=item * B<Bool> maps to L<Data::Perl::Bool>
+
+=item * B<Code> maps to L<Data::Perl::Code>
+
+=back
+
+=head1 SEE ALSO
+
+=over 4
+
+=item * L<MooX::HandlesVia>
+
+=back
+
+=cut
