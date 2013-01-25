@@ -30,12 +30,14 @@ sub import {
 
 sub process_has {
   my ($name, %opts) = @_;
-  my $handles = $opts{handles} || return;
-  return if ref $handles ne 'HASH';
+  my $handles = $opts{handles};
+  return ($name, %opts) if not $handles or ref $handles ne 'HASH';
 
   if (my $via = $opts{handles_via}) {
     # try to load the reserved mapping, if it exists, else the full name
-    require_module($RESERVED{$via} || $via);
+    $via = $RESERVED{$via} || $via;
+
+    require_module($via);
 
     while (my ($target, $method) = each %$handles) {
       if ($via->can($method)) {
