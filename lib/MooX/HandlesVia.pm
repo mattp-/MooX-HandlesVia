@@ -6,8 +6,8 @@ use Module::Runtime qw/require_module/;
 
 # reserved hardcoded mappings for classname shortcuts.
 my %RESERVED = (
-  'Hash' => 'Data::Perl::Collection::Hash',
-  'Array' => 'Data::Perl::Collection::Array',
+  'Hash' => 'Data::Perl::Collection::Hash::AutoFlatten',
+  'Array' => 'Data::Perl::Collection::Array::AutoFlatten',
   'String' => 'Data::Perl::String',
   'Number' => 'Data::Perl::Number',
   'Bool' => 'Data::Perl::Bool',
@@ -39,9 +39,18 @@ sub process_has {
 
     require_module($via);
 
-    while (my ($target, $method) = each %$handles) {
-      if ($via->can($method)) {
-        $handles->{$target} = '${\\'.$via.'->can("'.$method.'")}';
+    while (my ($target, $delegation) = each %$handles) {
+      # if passed an array, handle the curry
+      if (ref $delegation eq 'ARRAY') {
+        my ($method, @curry) = @$delegation;
+        if ($via->can($method)) {
+          $handles->{$target} = ['${\\'.$via.'->can("'.$method.'")}', @curry];
+        }
+      }
+      elsif (ref $delegation eq '') {
+        if ($via->can($delegation)) {
+          $handles->{$target} = '${\\'.$via.'->can("'.$delegation.'")}';
+        }
       }
     }
   }
@@ -113,13 +122,14 @@ method.
 
 =back
 
-The following handles_via keywords are reserved as shorthand for mapping to L<Data::Perl>:
+The following handles_via keywords are reserved as shorthand for mapping to
+L<Data::Perl>:
 
 =over 4
 
-=item * B<Hash> maps to L<Data::Perl::Collection::Hash>
+=item * B<Hash> maps to L<Data::Perl::Collection::Hash::AutoFlatten>
 
-=item * B<Array> maps to L<Data::Perl::Collection::Array>
+=item * B<Array> maps to L<Data::Perl::Collection::Array::AutoFlatten>
 
 =item * B<String> maps to L<Data::Perl::String>
 
