@@ -6,8 +6,8 @@ use Module::Runtime qw/require_module/;
 
 # reserved hardcoded mappings for classname shortcuts.
 my %RESERVED = (
-  'Hash' => 'Data::Perl::Collection::Hash::AutoFlatten',
-  'Array' => 'Data::Perl::Collection::Array::AutoFlatten',
+  'Hash' => 'Data::Perl::Collection::Hash',
+  'Array' => 'Data::Perl::Collection::Array',
   'String' => 'Data::Perl::String',
   'Number' => 'Data::Perl::Number',
   'Bool' => 'Data::Perl::Bool',
