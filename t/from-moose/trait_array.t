@@ -304,10 +304,8 @@ sub run_tests {
 
     is( exception {
         is( $obj->delete(2), 10, 'delete returns deleted value' );
-use DDP; p $obj;
     }, undef, 'delete lives' );
 
-use DDP; p $obj;
     is_deeply(
         $obj->_values, [ 1, 5, 42 ],
         'delete removed the specified element'
@@ -681,7 +679,8 @@ use DDP; p $obj;
 }
 
 {
-    my ( $class, $handles ) = build_class( isa => 'ArrayRef' );
+    use MooX::Types::MooseLike::Base qw/ArrayRef/;
+    my ( $class, $handles ) = build_class( isa => ArrayRef );
     my $obj = $class->new;
     is(
         exception { $obj->accessor( 0, undef ) },
