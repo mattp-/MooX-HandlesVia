@@ -1,5 +1,5 @@
 -currently Data::Perl does not return certain wantarray contextual return vals
-that Moose native traits return (ie hash get/set/delete, many in array). for
+that Moose native traits return (ie hash get/set/delete, array splice). for
 full backwards compatibility a ::Mooselike subclass should be provided by
 HandlesVia.
 
