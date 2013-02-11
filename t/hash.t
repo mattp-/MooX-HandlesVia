@@ -1,5 +1,6 @@
 use strict;
 use warnings;
+use Data::Perl::Collection::Hash::MooseLike;
 {
   package Ex1;
 
@@ -17,8 +18,8 @@ use warnings;
   has bars => (
     is => 'ro',
     handles => {
-      'get_bar' => '${\Data::Perl::Collection::Hash->can("get")}',
-      'set_bar' => '${\Data::Perl::Collection::Hash->can("set")}',
+      'get_bar' => '${\Data::Perl::Collection::Hash::MooseLike->can("get")}',
+      'set_bar' => '${\Data::Perl::Collection::Hash::MooseLike->can("set")}',
     },
   );
 
@@ -33,7 +34,7 @@ use warnings;
 }
 
 my $ex = Ex1->new(
-  foos => Data::Perl::Collection::Hash->new(one => 1),
+  foos => Data::Perl::Collection::Hash::MooseLike->new(one => 1),
   bars => { one => 1 },
   bazes => { ate => 'nine', two => 'five' },
 );
