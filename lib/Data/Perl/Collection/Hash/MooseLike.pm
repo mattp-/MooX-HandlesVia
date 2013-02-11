@@ -4,12 +4,12 @@ package Data::Perl::Collection::Hash::MooseLike;
 
 use strictures 1;
 
-use Role::Tiny;
+use Role::Tiny::With;
+use Class::Method::Modifiers;
 
 with 'Data::Perl::Role::Collection::Hash';
 
-around 'get', 'delete' => sub {
-    die;
+around 'set', 'get', 'delete' => sub {
     my $orig = shift;
     my @res = $orig->(@_);
 
@@ -26,9 +26,9 @@ __END__
 
 =head1 SYNOPSIS
 
-  use Data::Perl qw/hash/;
+  use Data::Perl::Collection::Hash::MooseLike;
 
-  my $hash = hash(a => 1, b => 2);
+  my $hash = Data::Perl::Collection::Hash::MooseLike->new(a => 1, b => 2);
 
   $hash->values; # (1, 2)
 
@@ -41,14 +41,31 @@ This class provides a wrapper and methods for interacting with a hash.  All
 methods are written to emulate/match existing behavior that exists with Moose's
 native traits.
 
-=head1 PROVIDED METHODS
+=head1 DIFFERENCES IN FUNCTIONALITY
 
 =over 4
 
-=item B<new($key, $value, ...)>
+=item B<get($key, $key, ...)>
 
-Given an optional list of keys/values, constructs a new Data::Perl::Collection::Hash
-object initalized with keys/values and returns it.
+Returns values from the hash.
+
+In list context it returns a list of values in the hash for the given keys. In
+scalar context it returns the value for the last key specified.
+
+=item B<set($key, $value, ...)>
+
+Sets the elements in the hash to the given values. It returns the new values
+set for each key, in the same order as the keys passed to the method.
+
+This method requires at least two arguments, and expects an even number of
+arguments.
+
+=item B<delete($key, $key, ...)>
+
+Removes the elements with the given keys.
+
+In list context it returns a list of values in the hash for the deleted keys.
+In scalar context it returns the value for the last key specified.
 
 =back
 
@@ -57,6 +74,8 @@ object initalized with keys/values and returns it.
 =over 4
 
 =item * L<Data::Perl>
+
+=item * L<Data::Perl::Role::Collection::Hash>
 
 =back
 
