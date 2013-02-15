@@ -40,12 +40,8 @@ use Test::Fatal;
 
         my $class = $name++;
 
-        my @traits = 'String';
-
         eval qq|
             package $class;
-
-            use DDP; p %attr;
 
             use Moo;
             use MooX::HandlesVia;
@@ -91,7 +87,6 @@ sub run_tests {
     can_ok( $class, $_ ) for sort keys %{$handles};
 
     my $obj = $class->new();
-    $DB::single=1;
     $obj->length;
 
     is( $obj->length, 0, 'length returns zero' );

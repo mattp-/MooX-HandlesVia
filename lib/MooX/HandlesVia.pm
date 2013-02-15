@@ -8,7 +8,7 @@ use Module::Runtime qw/require_module/;
 my %RESERVED = (
   'Array' => 'Data::Perl::Collection::Array::MooseLike',
   'Hash' => 'Data::Perl::Collection::Hash::MooseLike',
-  'String' => 'Data::Perl::String',
+  'String' => 'Data::Perl::String::MooseLike',
   'Number' => 'Data::Perl::Number',
   'Bool' => 'Data::Perl::Bool',
   'Code' => 'Data::Perl::Code',
