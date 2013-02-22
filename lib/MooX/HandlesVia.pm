@@ -10,8 +10,8 @@ my %RESERVED = (
   'Hash' => 'Data::Perl::Collection::Hash::MooseLike',
   'String' => 'Data::Perl::String::MooseLike',
   'Bool' => 'Data::Perl::Bool::MooseLike',
+  'Number' => 'Data::Perl::Number::MooseLike',
   'Code' => 'Data::Perl::Code',
-  'Number' => 'Data::Perl::Number',
 );
 
 sub import {
