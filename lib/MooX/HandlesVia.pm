@@ -97,6 +97,26 @@ atttribute. This is most commonly used as a way to emulate 'Native Trait'
 behavior that has become commonplace in Moose code, for which there was no Moo
 alternative.
 
+=head1 SHORTCOMINGS
+
+Due to current Moo implementation details there are some deficiencies in how
+MooX::HandlesVia in comparison to what you would expect from Moose native
+traits.
+
+=over 4
+
+=item * methods delegated via the Moo 'handles' interface are passed the
+attribue value directly. and there is no way to access the parent class. This
+means if an attribute is updated any triggers or type coercions B<WILL NOT>
+fire.
+
+=item * Moo attribute method delegations are passed the attribute value. This
+is fine for references (objects, arrays, hashrefs..) it means simple scalar
+types are B<READ ONLY>. This unfortunately means Number, String, Counter, Bool
+cannot modify the attributes value, rendering them largely useless.
+
+=back
+
 =head1 PROVIDED INTERFACE/FUNCTIONS
 
 =over 4
@@ -127,17 +147,15 @@ L<Data::Perl>:
 
 =over 4
 
-=item * B<Hash> maps to L<Data::Perl::Collection::Hash::AutoFlatten>
+=item * B<Hash> maps to L<Data::Perl::Collection::Hash::MooseLike>
 
-=item * B<Array> maps to L<Data::Perl::Collection::Array::AutoFlatten>
+=item * B<Array> maps to L<Data::Perl::Collection::Array::MooseLike>
 
-=item * B<String> maps to L<Data::Perl::String>
+=item * B<String> maps to L<Data::Perl::String::MooseLike>
 
-=item * B<Number> maps to L<Data::Perl::Number>
+=item * B<Number> maps to L<Data::Perl::Number::MooseLike>
 
-=item * B<Counter> maps to L<Data::Perl::Counter>
-
-=item * B<Bool> maps to L<Data::Perl::Bool>
+=item * B<Bool> maps to L<Data::Perl::Bool::MooseLike>
 
 =item * B<Code> maps to L<Data::Perl::Code>
 
