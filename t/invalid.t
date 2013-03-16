@@ -19,12 +19,12 @@ lives_ok {
 } 'invalid handles ref passed along cleanly';
 
 lives_ok {
-  package bar;
+  package boo;
   use MooX::HandlesVia;
 } 'noop if has() is not found in the samespace';
 
 lives_ok {
-  package bar;
+  package bop;
   use Moo;
   use MooX::HandlesVia;
 
@@ -33,7 +33,7 @@ lives_ok {
 
 
 lives_ok {
-  package foo;
+  package baz;
   use Moo;
   use MooX::HandlesVia;
 
