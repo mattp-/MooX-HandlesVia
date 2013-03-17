@@ -40,37 +40,56 @@ atttribute. This is most commonly used as a way to emulate 'Native Trait'
 behavior that has become commonplace in Moose code, for which there was no Moo
 alternative.
 
-# PROVIDED INTERFACE
+# SHORTCOMINGS
 
-MooX::HandlesVia preprocesses arguments passed to has() attribute declarations.
-In a given Moo class, If 'handles\_via' is set to a ClassName string, and 'handles' is
-set with a hashref mapping of desired moo class methods that should map to
-ClassName methods, MooX::HandlesVia will do the appropriate magic to create the
-mapping IF ClassName provides that named method.
+Due to current Moo implementation details there are some deficiencies in how
+MooX::HandlesVia in comparison to what you would expect from Moose native
+traits.
 
-    has options => (
-      is => 'rw',
-      handles_via => 'Array',
-      handles => {
-        mixup => 'shuffle',
-        unique_options => 'uniq',
-        all_options => 'elements'
-      }
-    );
+- methods delegated via the Moo 'handles' interface are passed the
+attribue value directly. and there is no way to access the parent class. This
+means if an attribute is updated any triggers or type coercions __WILL NOT__
+fire.
+- Moo attribute method delegations are passed the attribute value. This
+is fine for references (objects, arrays, hashrefs..) it means simple scalar
+types are __READ ONLY__. This unfortunately means Number, String, Counter, Bool
+cannot modify the attributes value, rendering them largely useless.
 
-The following handles\_via keywords are reserved as shorthand for mapping to [Data::Perl](http://search.cpan.org/perldoc?Data::Perl):
+# PROVIDED INTERFACE/FUNCTIONS
 
-- __Hash__ maps to [Data::Perl::Collection::Hash](http://search.cpan.org/perldoc?Data::Perl::Collection::Hash)
-- __Array__ maps to [Data::Perl::Collection::Array](http://search.cpan.org/perldoc?Data::Perl::Collection::Array)
-- __String__ maps to [Data::Perl::String](http://search.cpan.org/perldoc?Data::Perl::String)
-- __Number__ maps to [Data::Perl::Number](http://search.cpan.org/perldoc?Data::Perl::Number)
-- __Counter__ maps to [Data::Perl::Counter](http://search.cpan.org/perldoc?Data::Perl::Counter)
-- __Bool__ maps to [Data::Perl::Bool](http://search.cpan.org/perldoc?Data::Perl::Bool)
+- __process\_has(@\_)__
+
+    MooX::HandlesVia preprocesses arguments passed to has() attribute declarations
+    via the process\_has function. In a given Moo class, If 'handles\_via' is set to
+    a ClassName string, and 'handles' is set with a hashref mapping of desired moo
+    class methods that should map to ClassName methods, process\_has() will create
+    the appropriate binding to create the mapping IF ClassName provides that named
+    method.
+
+        has options => (
+          is => 'rw',
+          handles_via => 'Array',
+          handles => {
+            mixup => 'shuffle',
+            unique_options => 'uniq',
+            all_options => 'elements'
+          }
+        );
+
+The following handles\_via keywords are reserved as shorthand for mapping to
+[Data::Perl](http://search.cpan.org/perldoc?Data::Perl):
+
+- __Hash__ maps to [Data::Perl::Collection::Hash::MooseLike](http://search.cpan.org/perldoc?Data::Perl::Collection::Hash::MooseLike)
+- __Array__ maps to [Data::Perl::Collection::Array::MooseLike](http://search.cpan.org/perldoc?Data::Perl::Collection::Array::MooseLike)
+- __String__ maps to [Data::Perl::String::MooseLike](http://search.cpan.org/perldoc?Data::Perl::String::MooseLike)
+- __Number__ maps to [Data::Perl::Number::MooseLike](http://search.cpan.org/perldoc?Data::Perl::Number::MooseLike)
+- __Bool__ maps to [Data::Perl::Bool::MooseLike](http://search.cpan.org/perldoc?Data::Perl::Bool::MooseLike)
 - __Code__ maps to [Data::Perl::Code](http://search.cpan.org/perldoc?Data::Perl::Code)
 
 # SEE ALSO
 
-- [MooX::HandlesVia](http://search.cpan.org/perldoc?MooX::HandlesVia)
+- [Moo](http://search.cpan.org/perldoc?Moo)
+- [MooX::late](http://search.cpan.org/perldoc?MooX::late)
 
 # AUTHOR
 
