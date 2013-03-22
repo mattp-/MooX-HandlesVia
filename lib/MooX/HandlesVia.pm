@@ -1,4 +1,4 @@
-package MooX::HandlesVia;
+  package MooX::HandlesVia;
 # ABSTRACT: NativeTrait-like behavior for Moo.
 
 use strictures 1;
@@ -13,6 +13,7 @@ my %RESERVED = (
   'Number' => 'Data::Perl::Number::MooseLike',
   'Code' => 'Data::Perl::Code',
 );
+my %REVERSED = reverse %RESERVED;
 
 sub import {
   my ($class) = @_;
@@ -36,8 +37,10 @@ sub process_has {
   if (my $via = delete $opts{handles_via}) {
     # try to load the reserved mapping, if it exists, else the full name
     $via = $RESERVED{$via} || $via;
-
     require_module($via);
+
+    # clone handles for HandlesMoose support
+    my %handles_clone = %$handles;
 
     while (my ($target, $delegation) = each %$handles) {
       # if passed an array, handle the curry
@@ -53,6 +56,19 @@ sub process_has {
         }
       }
     }
+
+    # install our support for moose upgrading of class/role
+    # we deleted the handles_via key above, but install it as a native trait
+    my $handles_moose = $opts{handle_moose};
+    $opts{handle_moose} = sub {
+      my ($spec) = @_;
+
+      $spec->{handles} = \%handles_clone;
+      $spec->{traits} = [$REVERSED{$via} || $via];
+
+      # pass through if needed
+      $handles_moose->($spec) if ref($spec) eq 'CODE';
+    };
   }
 
   ($name, %opts);
