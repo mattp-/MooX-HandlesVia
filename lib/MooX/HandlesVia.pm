@@ -59,15 +59,15 @@ sub process_has {
 
     # install our support for moose upgrading of class/role
     # we deleted the handles_via key above, but install it as a native trait
-    my $handles_moose = $opts{handle_moose};
-    $opts{handle_moose} = sub {
+    my $inflator = $opts{moosify};
+    $opts{moosify} = sub {
       my ($spec) = @_;
 
       $spec->{handles} = \%handles_clone;
       $spec->{traits} = [$REVERSED{$via} || $via];
 
       # pass through if needed
-      $handles_moose->($spec) if ref($spec) eq 'CODE';
+      $inflator->($spec) if ref($spec) eq 'CODE';
     };
   }
 
