@@ -4,7 +4,7 @@ MooX::HandlesVia - NativeTrait-like behavior for Moo.
 
 # VERSION
 
-version 0.001000
+version 0.001001
 
 # SYNOPSIS
 
@@ -59,22 +59,22 @@ cannot modify the attributes value, rendering them largely useless.
 
 - __process\_has(@\_)__
 
-    MooX::HandlesVia preprocesses arguments passed to has() attribute declarations
-    via the process\_has function. In a given Moo class, If 'handles\_via' is set to
-    a ClassName string, and 'handles' is set with a hashref mapping of desired moo
-    class methods that should map to ClassName methods, process\_has() will create
-    the appropriate binding to create the mapping IF ClassName provides that named
-    method.
+MooX::HandlesVia preprocesses arguments passed to has() attribute declarations
+via the process\_has function. In a given Moo class, If 'handles\_via' is set to
+a ClassName string, and 'handles' is set with a hashref mapping of desired moo
+class methods that should map to ClassName methods, process\_has() will create
+the appropriate binding to create the mapping IF ClassName provides that named
+method.
 
-        has options => (
-          is => 'rw',
-          handles_via => 'Array',
-          handles => {
-            mixup => 'shuffle',
-            unique_options => 'uniq',
-            all_options => 'elements'
-          }
-        );
+    has options => (
+      is => 'rw',
+      handles_via => 'Array',
+      handles => {
+        mixup => 'shuffle',
+        unique_options => 'uniq',
+        all_options => 'elements'
+      }
+    );
 
 The following handles\_via keywords are reserved as shorthand for mapping to
 [Data::Perl](http://search.cpan.org/perldoc?Data::Perl):
