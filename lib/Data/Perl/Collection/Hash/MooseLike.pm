@@ -14,7 +14,9 @@ around 'set', 'get', 'delete' => sub {
     my @res = $orig->(@_);
 
     # support both class instance method invocation style
-    @res = blessed($res[0]) ? $res[0]->flatten : @res;
+    @res = blessed($res[0])
+            && ($res[0]->isa('Data::Perl::Collection::Hash')
+            || $res[0]->isa('Data::Perl::Collection::Array')) ? $res[0]->flatten : @res;
 
     wantarray ? @res : $res[-1];
 };

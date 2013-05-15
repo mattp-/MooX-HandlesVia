@@ -1,4 +1,5 @@
 {{$NEXT}}
+  - fix buggy flattening mechanism in MooseLike array/hashes
 
 0.001001  2013-05-14 17:05:24 EST5EDT
   - adds support for moosify attribute spec, for proper Moo inflation.
