@@ -16,7 +16,7 @@
 
   has foos => (
     is => 'ro',
-    handles_via => 'Data::Hash',
+    handles_via => ['Data::Hash'], # test for array deref
     handles => {
       'get_foo' => 'get',
       'set_foo' => 'set',

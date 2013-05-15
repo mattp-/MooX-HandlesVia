@@ -35,6 +35,8 @@ sub process_has {
   return ($name, %opts) if not $handles or ref $handles ne 'HASH';
 
   if (my $via = delete $opts{handles_via}) {
+    $via = ref $via eq 'ARRAY' ? $via->[0] : $via;
+
     # try to load the reserved mapping, if it exists, else the full name
     $via = $RESERVED{$via} || $via;
     require_module($via);
