@@ -1,4 +1,6 @@
 {{$NEXT}}
+  - bump Moo minver to 1.00300, as it contains crucial Role composition fixes when
+    interacting with Moose. thanks @haarg
 
 0.001003  2013-05-15 10:19:06 EST5EDT
   - handles_via can now accept arrayref as an arg, to more closely mirror Moose
