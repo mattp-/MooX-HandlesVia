@@ -86,7 +86,7 @@ __END__
   {
     package Hashy;
     use Moo;
-    use MooX::HandleVia;
+    use MooX::HandlesVia;
 
     has hash => (
       is => 'rw',
@@ -101,9 +101,9 @@ __END__
 
   my $h = Hashy->new(hash => { a => 1, b => 2});
 
-  $h->get('b'); # 2
+  $h->get_val('b'); # 2
 
-  $h->set('a', 'BAR'); # sets a to BAR
+  $h->set_val('a', 'BAR'); # sets a to BAR
 
   my @keys = $h->all_keys; # returns a, b
 
