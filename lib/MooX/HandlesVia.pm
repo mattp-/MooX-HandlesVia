@@ -23,9 +23,11 @@ sub import {
 
   my $target = caller;
   if(my $has = $target->can('has')) {
-    *{$target.'::has'} = sub {
-      $has->(process_has(@_));
-    }
+      my $newsub = sub {
+          $has->(process_has(@_));
+      };
+      *{$target.'::has'} = $newsub;
+      $Moo::MAKERS{$target}{exports}{has} = $newsub;
   }
 }
 
