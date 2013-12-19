@@ -26,8 +26,12 @@ sub import {
       my $newsub = sub {
           $has->(process_has(@_));
       };
-      *{$target.'::has'} = $newsub;
-      $Moo::MAKERS{$target}{exports}{has} = $newsub;
+      if($target->isa("Moo::Object")){
+          Moo::_install_tracked($target, "has", $newsub);
+      }
+      else{
+          Moo::Role::_install_tracked($target, "has", $newsub);
+      }
   }
 }
 
