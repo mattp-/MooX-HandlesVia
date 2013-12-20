@@ -23,9 +23,15 @@ sub import {
 
   my $target = caller;
   if(my $has = $target->can('has')) {
-    *{$target.'::has'} = sub {
-      $has->(process_has(@_));
-    }
+      my $newsub = sub {
+          $has->(process_has(@_));
+      };
+      if($target->isa("Moo::Object")){
+          Moo::_install_tracked($target, "has", $newsub);
+      }
+      else{
+          Moo::Role::_install_tracked($target, "has", $newsub);
+      }
   }
 }
 
