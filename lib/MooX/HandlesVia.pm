@@ -75,7 +75,7 @@ sub process_has {
       $spec->{traits} = [$REVERSED{$via} || $via];
 
       # pass through if needed
-      $inflator->($spec) if ref($spec) eq 'CODE';
+      $inflator->($spec) if ref($inflator) eq 'CODE';
     };
   }
 
