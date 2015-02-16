@@ -1,4 +1,6 @@
 {{$NEXT}}
+  - fix some badly cp'd pod (RT 91955)
+  - add missing test time dependency on Test::Fatal (RT 101971)
 
 0.001006  2015-01-10 13:43:39EST-0500 America/Toronto
   - fix ref check on moosify inflator (@shadowcat-mst)
