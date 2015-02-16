@@ -4,7 +4,7 @@ MooX::HandlesVia - NativeTrait-like behavior for Moo.
 
 # VERSION
 
-version 0.001006
+version 0.001007
 
 # SYNOPSIS
 
@@ -48,16 +48,16 @@ traits.
 
 - methods delegated via the Moo 'handles' interface are passed the
 attribue value directly. and there is no way to access the parent class. This
-means if an attribute is updated any triggers or type coercions __WILL NOT__
+means if an attribute is updated any triggers or type coercions **WILL NOT**
 fire.
 - Moo attribute method delegations are passed the attribute value. This
 is fine for references (objects, arrays, hashrefs..) it means simple scalar
-types are __READ ONLY__. This unfortunately means Number, String, Counter, Bool
+types are **READ ONLY**. This unfortunately means Number, String, Counter, Bool
 cannot modify the attributes value, rendering them largely useless.
 
 # PROVIDED INTERFACE/FUNCTIONS
 
-- __process\_has(@\_)__
+- **process\_has(@\_)**
 
     MooX::HandlesVia preprocesses arguments passed to has() attribute declarations
     via the process\_has function. In a given Moo class, If 'handles\_via' is set to
@@ -77,19 +77,19 @@ cannot modify the attributes value, rendering them largely useless.
         );
 
 The following handles\_via keywords are reserved as shorthand for mapping to
-[Data::Perl](http://search.cpan.org/perldoc?Data::Perl):
+[Data::Perl](https://metacpan.org/pod/Data::Perl):
 
-- __Hash__ maps to [Data::Perl::Collection::Hash::MooseLike](http://search.cpan.org/perldoc?Data::Perl::Collection::Hash::MooseLike)
-- __Array__ maps to [Data::Perl::Collection::Array::MooseLike](http://search.cpan.org/perldoc?Data::Perl::Collection::Array::MooseLike)
-- __String__ maps to [Data::Perl::String::MooseLike](http://search.cpan.org/perldoc?Data::Perl::String::MooseLike)
-- __Number__ maps to [Data::Perl::Number::MooseLike](http://search.cpan.org/perldoc?Data::Perl::Number::MooseLike)
-- __Bool__ maps to [Data::Perl::Bool::MooseLike](http://search.cpan.org/perldoc?Data::Perl::Bool::MooseLike)
-- __Code__ maps to [Data::Perl::Code](http://search.cpan.org/perldoc?Data::Perl::Code)
+- **Hash** maps to [Data::Perl::Collection::Hash::MooseLike](https://metacpan.org/pod/Data::Perl::Collection::Hash::MooseLike)
+- **Array** maps to [Data::Perl::Collection::Array::MooseLike](https://metacpan.org/pod/Data::Perl::Collection::Array::MooseLike)
+- **String** maps to [Data::Perl::String::MooseLike](https://metacpan.org/pod/Data::Perl::String::MooseLike)
+- **Number** maps to [Data::Perl::Number::MooseLike](https://metacpan.org/pod/Data::Perl::Number::MooseLike)
+- **Bool** maps to [Data::Perl::Bool::MooseLike](https://metacpan.org/pod/Data::Perl::Bool::MooseLike)
+- **Code** maps to [Data::Perl::Code](https://metacpan.org/pod/Data::Perl::Code)
 
 # SEE ALSO
 
-- [Moo](http://search.cpan.org/perldoc?Moo)
-- [MooX::late](http://search.cpan.org/perldoc?MooX::late)
+- [Moo](https://metacpan.org/pod/Moo)
+- [MooX::late](https://metacpan.org/pod/MooX::late)
 
 # AUTHOR
 
