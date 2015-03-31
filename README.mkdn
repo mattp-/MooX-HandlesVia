@@ -1,11 +1,3 @@
-# NAME
-
-MooX::HandlesVia - NativeTrait-like behavior for Moo.
-
-# VERSION
-
-version 0.001007
-
 # SYNOPSIS
 
     {
@@ -90,14 +82,3 @@ The following handles\_via keywords are reserved as shorthand for mapping to
 
 - [Moo](https://metacpan.org/pod/Moo)
 - [MooX::late](https://metacpan.org/pod/MooX::late)
-
-# AUTHOR
-
-Matthew Phillips <mattp@cpan.org>
-
-# COPYRIGHT AND LICENSE
-
-This software is copyright (c) 2015 by Matthew Phillips <mattp@cpan.org>.
-
-This is free software; you can redistribute it and/or modify it under
-the same terms as the Perl 5 programming language system itself.

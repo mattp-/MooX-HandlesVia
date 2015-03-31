@@ -1,7 +1,11 @@
-  package MooX::HandlesVia;
+package MooX::HandlesVia;
 # ABSTRACT: NativeTrait-like behavior for Moo.
 
-use strictures 1;
+use strict;
+use warnings;
+
+use Moo ();
+use Moo::Role ();
 use Module::Runtime qw/require_module/;
 
 # reserved hardcoded mappings for classname shortcuts.
@@ -22,16 +26,17 @@ sub import {
   no warnings 'redefine';
 
   my $target = caller;
-  if(my $has = $target->can('has')) {
-      my $newsub = sub {
-          $has->(process_has(@_));
-      };
-      if($target->isa("Moo::Object")){
-          Moo::_install_tracked($target, "has", $newsub);
-      }
-      else{
-          Moo::Role::_install_tracked($target, "has", $newsub);
-      }
+  if (my $has = $target->can('has')) {
+    my $newsub = sub {
+        $has->(process_has(@_));
+    };
+
+    if (Moo::Role->is_role($target)) {
+      Moo::Role::_install_tracked($target, "has", $newsub);
+    }
+    else {
+      Moo::_install_tracked($target, "has", $newsub);
+    }
   }
 }
 
