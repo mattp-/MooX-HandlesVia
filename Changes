@@ -1,5 +1,9 @@
 {{$NEXT}}
 
+0.001008  2015-03-30 21:33:17-04:00 America/New_York
+  - fix a bug inheriting from nonmoo classes
+  - remove strictures dependency for laxer strict/warnings
+
 0.001007  2015-02-16 09:12:08-05:00 America/New_York
   - fix some badly cp'd pod (RT 91955)
   - add missing test time dependency on Test::Fatal (RT 101971)
